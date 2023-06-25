@@ -3,11 +3,11 @@ import {ApiService} from "../../../../core/services/api.service";
 import {IBook} from "../../../../shared/interfaces/IBook";
 import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {BookPage} from "../book/book.page";
 import {AlertController} from "@ionic/angular";
 import {ILanguages} from "../../../../shared/interfaces/ILanguages";
 import {switchMap, tap} from "rxjs/operators";
 import {IMinMaxPages} from "../../../../shared/interfaces/IMinMaxPages";
+import {SqlBaseService} from "../../../../core/services/sql-base.service";
 
 
 @Component({
@@ -33,7 +33,7 @@ export class BooksMainPage implements OnInit {
   sub1!: Subscription;
 
 
-  constructor(public api: ApiService, private router: Router,private alertController: AlertController) {
+  constructor(public api: ApiService, private router: Router,private alertController: AlertController, public db: SqlBaseService) {
     this.getData()
   }
 
@@ -44,12 +44,12 @@ export class BooksMainPage implements OnInit {
     if (this.sub1) this.sub1.unsubscribe();
   }
 
-  changod() {
 
-    console.log(this.minMaxPages)
-  }
 
-  getData() {
+  async getData() {
+    this.db.createDatabase().then(() => this.getBooks())
+
+
     this.booksArr$ = this.api.getAllBooks();
     this.genres = this.api.getAllGenres();
     this.languages = this.api.getAllLanguages();
@@ -73,6 +73,15 @@ export class BooksMainPage implements OnInit {
   addNewBook() {
 
   }
+  getBooks() {
+      // С WebSQL ещё не приходилось разбираться, ранее использовал хранилища
+      // web local storage, cookies, ionic storage. Дошел до этой части и понял что половину кода
+      // касательно манипуляции данных из api.service нужно переписывать под WebSQL
+      // this.db.getBooks().then((data) => {
+      //   console.log('BOOKS::', data)
+      // })
+  }
+
 
   resetValue(nameOfVar: string) {
     switch (nameOfVar) {
