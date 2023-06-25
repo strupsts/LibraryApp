@@ -1,0 +1,19 @@
+body {
+  font-family: Montserrat,sans-serif;
+}
+
+.flex-box {
+  display: flex;
+  &.fw {
+    width: 100% !important;
+  }
+  &.fd-c {
+    flex-direction: column;
+  }
+  &.jc-sb {
+    justify-content: space-between;
+  }
+  &.jc-fe {
+    justify-content: flex-end;
+  }
+}

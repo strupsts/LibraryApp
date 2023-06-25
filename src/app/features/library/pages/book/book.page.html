@@ -1,0 +1,33 @@
+
+
+<ion-content >
+  <ion-header class="ion-no-border">
+    <ion-toolbar color="secondary" >
+      <ion-back-button slot="start" defaultHref="/" ></ion-back-button>
+      <ion-title>
+
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="mainInfo-container">
+    <div>
+      <div class="bookName">{{book.bookName}}</div>
+      <div class="author">{{book.author}}</div>
+    </div>
+  </div>
+  <div class="additionalInfo-container">
+    <div class="genres">
+      <div>Жанр</div>
+      <span>{{genres}}</span>
+    </div>
+    <div class="description">
+      <div>Описание</div>
+      <span>{{book.description}}</span>
+    </div>
+    <div class="pagesCount">
+        <div>Кол-во страниц:</div>
+        <span>{{book.pages}}</span>
+    </div>
+  </div>
+
+</ion-content>

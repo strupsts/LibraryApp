@@ -1,0 +1,106 @@
+
+<ion-content [fullscreen]="true" >
+  <ion-header (click)="changod()" >
+    <ion-toolbar color="primary">
+        <ion-title>
+          <ion-icon name="book"></ion-icon>
+          <span>Библиотека</span>
+        </ion-title>
+      <ion-icon class="authorListButton" name="people-outline" slot="end" (click)="addNewBook()"></ion-icon>
+    </ion-toolbar>
+  </ion-header>
+  <div class="search-container">
+    <ion-item>
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-input placeholder="Поиск..." [(ngModel)]="searchInput"></ion-input>
+      <ion-icon name="filter" id="open-modal" class="filter-ico"></ion-icon>
+    </ion-item>
+
+
+  </div>
+
+  <div class="bookList-container" *ngIf="booksArr$ | async as booksArr">
+    <ion-icon class="addBookButton" name="add-circle" slot="end" (click)="addNewBook()"></ion-icon>
+    <app-book-card class="book"
+                   *ngFor="let book of booksArr | search : searchInput : selectedGenre : selectedLanguage : selectedAuthors : minPage : maxPage"
+                   [book]="book"
+                   (click)="openBookPage(book)">
+<!--                   routerLink="{{book.pages}}"-->
+    </app-book-card>
+  </div>
+
+<!-- Модальное окно -->
+  <ion-modal #modal trigger="open-modal" class="filter-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Фильтр</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modal.dismiss()">Закрыть</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+
+            <ion-select
+                        label-placement="floating"
+                        label="Жанр"
+                        [(ngModel)]="selectedGenre"
+                        okText="Выбрать" cancelText="Сбросить"
+                        (ionCancel)="resetValue('genre')"
+            >
+              <ion-select-option *ngFor="let genre of genres" [value]="genres.indexOf(genre)+1">
+                {{genre}}
+                </ion-select-option>
+            </ion-select>
+
+            <ion-select
+                        label-placement="floating"
+                        label="Сортировка по языку"
+                        [multiple]="true" [(ngModel)]="selectedLanguage"
+                        okText="Выбрать" cancelText="Сбросить"
+                        (ionCancel)="resetValue('lang')"
+            >
+                <ion-select-option *ngFor="let lang of languages" [value]="lang.key">
+                  {{lang.value}}
+                </ion-select-option>
+            </ion-select>
+
+            <ion-select
+              label-placement="floating"
+              label="Сортировка по автору"
+              [multiple]="true" [(ngModel)]="selectedAuthors"
+              okText="Выбрать" cancelText="Сбросить"
+              (ionCancel)="resetValue('author')"
+            >
+               <ion-select-option *ngFor="let author of authors" [value]="author">{{author}}</ion-select-option>
+            </ion-select>
+<!--   Знаю что инлайн стили это плохо, но в этом случае необходимо     -->
+            <div class="pagesFilter" style="padding-top: 18px">
+                <ion-label  >Сортировка по кол-ву страниц</ion-label>
+                <ion-item >
+                  <ion-buttons slot="start">
+                    <ion-button (click)="decrementPage('min')"><ion-icon name="remove"></ion-icon></ion-button>
+                  </ion-buttons>
+                  <ion-input label="От" type="number" [(ngModel)]="minPage"></ion-input>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="incrementPage('min')"><ion-icon name="add"></ion-icon></ion-button>
+                  </ion-buttons>
+
+                </ion-item>
+                <ion-item>
+                  <ion-buttons slot="start">
+                    <ion-button (click)="decrementPage('max')"><ion-icon name="remove"></ion-icon></ion-button>
+                  </ion-buttons>
+                  <ion-input label="До" type="number" [(ngModel)]="maxPage"></ion-input>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="incrementPage('max')"><ion-icon name="add"></ion-icon></ion-button>
+                  </ion-buttons>
+                </ion-item>
+            </div>
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

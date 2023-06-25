@@ -1,0 +1,14 @@
+
+
+<div class="card-container">
+    <div class="flex-box jc-sb top-info">
+        <div class="bookName"> {{book.bookName}}</div>
+        <div class="lang"[ngStyle]="{'background-image': langImgUrl}"></div>
+      </div>
+    <div class="author">{{book.author}}</div>
+    <div> {{book.pages}} с.</div>
+    <div class="bottom-info">
+      <div class="genres" >Жанры: </div>
+      <span >{{genres}}</span>
+    </div>
+</div>

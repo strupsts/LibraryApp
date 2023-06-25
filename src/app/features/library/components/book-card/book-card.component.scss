@@ -1,0 +1,42 @@
+app-book-card {
+  .card-container {
+    font-family: Montserrat, sans-serif;
+    box-shadow: 0 0 5px 1px rgba(86, 94, 175, 0.41);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 20px 20px 20px !important;
+
+  }
+  .bookName {
+    font-size: 19px;
+    font-weight: 600;
+    color: #565eaf;
+    width: calc(100% - 50px)
+  }
+  .lang {
+    box-shadow: 0 0 5px black;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50px 31px ;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+  }
+  .author {
+    color: #65677f;
+    margin-bottom: 10px
+  }
+  .bottom-info {
+      margin-top: 25px;
+      .genres {
+        border-top: 3px solid #565eaf;
+        padding: 5px 0 5px 0;
+        color: #5a61ad;
+        font-weight: 700;
+      }
+      span {
+        margin-right: 5px;
+      }
+  }
+
+}
