@@ -211,11 +211,11 @@ export class LibraryService {
 
   addBook(newBook: any) {
     let booksArr:IBook[] = this.actuallyBooksArray.getValue()
-    // let exist = booksArr.find(a => a.bookName === newBook.bookName && a.author === newBook.author)
-    // if(exist) {
-    //   console.log('Идентичная указанной книга уже существует: ', exist)
-    //   return []
-    // }
+    let exist = booksArr.find(a => a.bookName === newBook.bookName && a.author === newBook.author)
+    if(exist) {
+      console.log('Идентичная указанной книга уже существует: ', exist)
+      return []
+    }
     let handledGenres = this.genreHandler(newBook.genre)
     console.log('Готовый массив цифр жанра: ', handledGenres)
     booksArr = [{...newBook, genre: handledGenres}, ...booksArr]
@@ -309,11 +309,6 @@ export class LibraryService {
       }
 
 
-
-
-
-
-
   setMinMaxPages(): Observable<void> {
     return new Observable ((observer) => {
       this.actuallyBooksArray.pipe(
@@ -344,59 +339,4 @@ export class LibraryService {
   }
 
 
-
-
-
 }
-// this.storageService.getItemStorage('books')
-//   ?.then((books:IBook[] ) => {
-//     if(!books) {
-//       let sub = this.api.getAllBooks().subscribe((books:IBook[]) => {
-//         this.actuallyBooksArray.next(books);
-//         console.log('Первонач')
-//         sub.unsubscribe()
-//       })
-//     }
-//     else {
-//           this.actuallyBooksArray.next(books)
-//           console.log('[INIT] Книги загружены из storage');
-//     }
-//
-//     this.actuallyBooksArray.subscribe((books: IBook[]) => {
-//       console.log('Вызвана подписка, а books: ', books)
-//         if(!this.actuallyAuthorsArray.getValue().length) {
-//           console.log('[INIT] Объявление первоначальной подписки на массив с авторами');
-//           this.actuallyAuthorsArray.subscribe((nextAuthors: IAuthors[]) => {
-//             if(this.startGetAuthors && nextAuthors.length) {
-//               this.startGetAuthors = false;
-//             }
-//             else if(!this.startGetAuthors) {
-//               this.storageService.setItemStorage('authors', nextAuthors)
-//                 ?.then((resAutors: IBook[]) => {
-//                   console.log('[SUBSCRIBE] Автор добавлен в массив', resAutors);
-//                 })
-//             }
-//           });
-//           console.log('[INIT] Массив с авторами отсутствует. Начинается инициализация данных')
-//           this.storageService.getItemStorage('authors')
-//             ?.then((authors: IAuthors[]) => {
-//               if (authors && authors.length) {
-//                 console.log('[INIT] Авторы загружены из storage')
-//                 this.actuallyAuthorsArray.next(authors)
-//               }
-//               else {
-//                 const authorsArr = this.initAuthorsHandler(books);
-//                 if (authorsArr && authorsArr.length) {
-//                   console.log('[INIT] Авторы добавлены в storage ', authorsArr)
-//                   this.actuallyAuthorsArray.next(authorsArr)
-//                 }
-//               }
-//             });
-//         }
-//         if(!this.actuallyBooksArray.getValue().length) {
-//           this.storageService.setItemStorage('books', books)?.then((resBooks: IBook[]) => {
-//             console.log('[INIT] Книги добавлены в storage', resBooks)
-//           })
-//         }
-//     });
-//   })
