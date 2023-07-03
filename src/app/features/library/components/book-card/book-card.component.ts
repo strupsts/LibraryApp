@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IBook} from "../../../../shared/interfaces/IBook";
 import {ApiService} from "../../../../core/services/api.service";
+import {LibraryService} from "../../services/library.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-book-card',
@@ -10,8 +12,9 @@ import {ApiService} from "../../../../core/services/api.service";
 export class BookCardComponent implements OnInit{
   @Input() book!:IBook;
   langImgUrl!: string;
-  genres!:string;
-  constructor(private api: ApiService) {}
+  genres$: Observable<string[]>
+  genres: string;
+  constructor(private libraryService: LibraryService) {}
 
   setImgUrl(lang:string) {
     return `url('assets/images/langs/${lang}.png')`
@@ -19,8 +22,9 @@ export class BookCardComponent implements OnInit{
 
   ngOnInit(): void {
     this.langImgUrl = this.setImgUrl(this.book.language);
-    console.log(this.book.genre)
-    this.genres = this.api.getGenres(this.book.genre);
+    this.libraryService.getGenresList().subscribe(() => {
+      this.genres = this.libraryService.getCurrentBookGenres(this.book.genre);
+    })
   }
 
 

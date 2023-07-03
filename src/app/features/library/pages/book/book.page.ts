@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IBook} from "../../../../shared/interfaces/IBook";
 import {ApiService} from "../../../../core/services/api.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {LibraryService} from "../../services/library.service";
 
 @Component({
   selector: 'app-book',
@@ -15,7 +16,8 @@ export class BookPage implements OnInit {
   constructor(
     private api: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private libraryService: LibraryService
   ) {
     this.getData()
   }
@@ -28,7 +30,7 @@ export class BookPage implements OnInit {
     if (navigation && navigation.extras.state) {
       this.book = navigation.extras.state['book']
     }
-    this.genres = this.api.getGenres(this.book.genre)
+    this.genres = this.libraryService.getCurrentBookGenres(this.book.genre)
          // Ещё один вариант прокинуть пропсы в компонент:
       // this.route.queryParams.subscribe(params => {
       //   this.book = {

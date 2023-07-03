@@ -33,7 +33,10 @@
 @import "./src/app/app.component";
 @import "./src/app/features/library/pages/book/book.page";
 @import "./src/app/features/library/pages/books-main/books-main.page";
+@import "./src/app/features/library/pages/book-creator/book-creator.page";
+@import "./src/app/features/library/pages/authors-list/authors-list.page";
 @import "./src/app/features/library/components/book-card/book-card.component";
+@import "./src/app/features/library/components/author-card/author-card.component";
 
 
 ion-modal {

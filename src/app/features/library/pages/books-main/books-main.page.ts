@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../../../core/services/api.service";
 import {IBook} from "../../../../shared/interfaces/IBook";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, Subject} from "rxjs";
 import {Router} from "@angular/router";
-import {AlertController} from "@ionic/angular";
+import {AlertController, Platform} from "@ionic/angular";
 import {ILanguages} from "../../../../shared/interfaces/ILanguages";
-import {switchMap, tap} from "rxjs/operators";
+import {switchMap, take, tap} from "rxjs/operators";
 import {IMinMaxPages} from "../../../../shared/interfaces/IMinMaxPages";
-import {SqlBaseService} from "../../../../core/services/sql-base.service";
+import {IAuthors, LibraryService} from "../../services/library.service";
+
 
 
 @Component({
@@ -16,7 +17,10 @@ import {SqlBaseService} from "../../../../core/services/sql-base.service";
   styleUrls: ['./books-main.page.scss'],
 })
 export class BooksMainPage implements OnInit {
-  booksArr$!: Observable<IBook[]>;
+  booksArr: IBook[];
+  authors: Observable<IAuthors[]>;
+  update$: Subject<void> = new Subject<void>();
+
   searchInput: string = '';
   selectedGenre: number | false = false;
   selectedLanguage: string[] = [];
@@ -27,37 +31,43 @@ export class BooksMainPage implements OnInit {
 
   genres: string[] = [];
   languages: ILanguages[] = [];
-  authors: string[] = [];
+
   minMaxPages: { min: number, max: number } = { min: 0, max: 0}
 
   sub1!: Subscription;
+  sub_books: Subscription;
 
 
-  constructor(public api: ApiService, private router: Router,private alertController: AlertController, public db: SqlBaseService) {
-    this.getData()
-  }
+  constructor(public api: ApiService,
+              private router: Router,
+              private platform: Platform,
+              public libraryService: LibraryService) {}
 
 
   ngOnInit() {
+    this.getData()
   }
   ngOnDestroy() {
     if (this.sub1) this.sub1.unsubscribe();
+    if (this.sub_books) this.sub_books.unsubscribe();
   }
 
 
+  getData() {
+    this.sub_books = this.libraryService.getBooks().subscribe((books: IBook[]) => {
+      this.booksArr = books
+    })
+    this.libraryService.getGenresList().subscribe((genresArr: string[]) => {
+      this.genres = genresArr
+    });
+    this.authors = this.libraryService.getAuthors();
 
-  async getData() {
-    this.db.createDatabase().then(() => this.getBooks())
 
+    this.languages = this.libraryService.getLanguagesList();
 
-    this.booksArr$ = this.api.getAllBooks();
-    this.genres = this.api.getAllGenres();
-    this.languages = this.api.getAllLanguages();
-    this.authors = this.api.getAllAuthors();
-
-    this.sub1 = this.api.setMinMaxPages().pipe(
+    this.sub1 = this.libraryService.setMinMaxPages().pipe(
       tap(() => {
-        this.api.getMinMaxPages().subscribe((minMaxPages: IMinMaxPages) => {
+        this.libraryService.getMinMaxPages().subscribe((minMaxPages: IMinMaxPages) => {
           this.minMaxPages = minMaxPages;
           this.minPage = minMaxPages.min
           this.maxPage = minMaxPages.max
@@ -70,17 +80,9 @@ export class BooksMainPage implements OnInit {
   openBookPage(book:IBook) {
     this.router.navigate([`library`, book.id], { state: { book } })
   }
-  addNewBook() {
 
-  }
-  getBooks() {
-      // С WebSQL ещё не приходилось разбираться, ранее использовал хранилища
-      // web local storage, cookies, ionic storage. Дошел до этой части и понял что половину кода
-      // касательно манипуляции данных из api.service нужно переписывать под WebSQL
-      // this.db.getBooks().then((data) => {
-      //   console.log('BOOKS::', data)
-      // })
-  }
+
+
 
 
   resetValue(nameOfVar: string) {

@@ -1,0 +1,18 @@
+<div
+     class="author-block flex-box ai-c jc-sb"
+     [ngStyle]="{'box-shadow': (editMode ? '1px 1px 3px #1cb4b3' : '')}"
+>
+  <ion-input [(ngModel)]="localAuthorData.author"
+             class="authorName"
+             [disabled]="!editMode"
+
+  ></ion-input>
+  <div class="ico-container">
+    <ion-icon *ngIf="editModeOut"
+              name="{{editMode ? 'save' : 'create-outline'}}"
+              [ngClass]="{'editTrue': editMode, 'editFalse': !editMode}"
+              (click)="editAuthor()"
+    ></ion-icon>
+
+  </div>
+</div>

@@ -1,0 +1,39 @@
+
+
+<ion-content >
+  <ion-buttons>
+    <ion-back-button defaultHref="/" [disabled]="outEditMode"></ion-back-button>
+    <ion-title (click)="change()">Список авторов</ion-title>
+  </ion-buttons>
+
+  <div class="additionalInfo-container">
+      <div class="createAuthorForm" *ngIf="outEditMode">
+        <div class="label">Добавьте нового автора</div>
+        <ion-item>
+          <ion-input label="Имя" labelPlacement="floating" [(ngModel)]="firstName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Фамилия" labelPlacement="floating" [(ngModel)]="lastName"></ion-input>
+        </ion-item>
+        <ion-button [disabled]="!(firstName && lastName)" (click)="createNewAuthor()">Подтвердить</ion-button>
+      </div>
+
+      <app-author-card
+        *ngFor="let col of authors"
+        [editModeOut]="outEditMode"
+        [authorData]="col"
+      ></app-author-card>
+
+    <ion-icon name="settings{{ outEditMode ? '' : '-outline'}}"
+              *ngIf="!outEditMode"
+              class="createAuthorBtn"
+              (click)="toggleEditMode()"></ion-icon>
+    <div class="authors-wrapper"></div>
+    <ion-button class="saveBtn"
+                [disabled]="hasEditMode()"
+                *ngIf="outEditMode"
+                (click)="toggleEditMode()"
+    >Сохранить</ion-button>
+  </div>
+
+</ion-content>

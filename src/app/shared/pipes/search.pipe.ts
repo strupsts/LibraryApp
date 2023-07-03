@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {IBook} from "../interfaces/IBook";
 
 @Pipe({
-  name: 'search'
+  name: 'search',
+  pure: false
 })
 export class SearchPipe implements PipeTransform {
 
@@ -15,7 +16,6 @@ export class SearchPipe implements PipeTransform {
     minPage: number, maxPage: number
   ): IBook[]
   {
-
 
     if (genre) {
       books = books.filter(f => f.genre.includes(genre))

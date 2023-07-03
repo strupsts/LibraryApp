@@ -1,0 +1,57 @@
+app-book-creator {
+
+  ion-content {
+    --background: #c0bbf9;
+    font-family: Montserrat,sans-serif;
+  }
+  ion-buttons {
+    padding: 20px 0 20px 10px;
+    background: #c0bbf9;
+    color: #564e95;
+    ion-title {
+      //padding-top: 18px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+  ion-button {
+    --background: #544aa0;
+    width: 100%;
+
+  }
+  .form-wrapper {
+    height: 50px;
+  }
+  .item-textarea {
+    --min-height: 200px !important;
+    ion-textarea {
+      height: 100% !important;
+    }
+  }
+
+  .mainInfo-container {
+    background: #c0bbf9;
+    height: 100px !important;
+    padding: 20px;
+  }
+  .mainInfo-container div {
+    height: 100%;
+
+  }
+  .additionalInfo-container {
+      min-height: calc(100% - 72px);
+  }
+  .form-creator div {
+    margin: 5px 0;
+
+
+  }
+
+    ion-item {
+      font-family: Montserrat,sans-serif !important;
+      font-weight: 400;
+    }
+
+
+
+}

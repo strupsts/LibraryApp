@@ -1,0 +1,56 @@
+<!--<ion-header >-->
+<!--  <ion-toolbar>-->
+<!--    <ion-buttons>-->
+<!--    <ion-back-button defaultHref="/library" slot="start"></ion-back-button>-->
+<!--    </ion-buttons>-->
+<!--    <ion-title>book-creator</ion-title>-->
+<!--  </ion-toolbar>-->
+<!--</ion-header>-->
+
+<ion-content >
+  <ion-buttons>
+    <ion-back-button defaultHref="/"></ion-back-button>
+    <ion-title>Создайте книгу</ion-title>
+  </ion-buttons>
+
+  <div class="additionalInfo-container ">
+      <form [formGroup]="bookForm" (ngSubmit)="createBook()" class="form-creator">
+        <div class="flex-box fh fd-c jc-sb">
+          <ion-item>
+            <ion-input label="Название" labelPlacement="floating" formControlName="bookName" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select label="Автор" formControlName="author" required>
+              <ion-select-option [value]="col.author"
+                                 *ngFor="let col of authors$ | async"
+              >{{col.author}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="item-textarea">
+            <ion-textarea label="Описание" labelPlacement="floating" formControlName="description"></ion-textarea>
+          </ion-item>
+
+          <ion-item >
+            <ion-input label="Количество страниц" labelPlacement="floating" type="number" formControlName="pages" required></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select label="Язык" labelPlacement="floating" formControlName="language" required>
+              <ion-select-option [value]="col.key"
+                                 *ngFor="let col of languages"
+              >{{col.value}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-input placeholder="Через запятую, например: Драма, Комедия" label="Жанр" labelPlacement="floating" formControlName="genre"></ion-input>
+          </ion-item>
+        </div>
+        <div class="form-wrapper"></div>
+        <ion-button expand="full" type="submit" [disabled]="bookForm.invalid">Создать</ion-button>
+      </form>
+    </div>
+
+</ion-content>

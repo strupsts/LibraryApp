@@ -6,7 +6,11 @@
           <ion-icon name="book"></ion-icon>
           <span>Библиотека</span>
         </ion-title>
-      <ion-icon class="authorListButton" name="people-outline" slot="end" (click)="addNewBook()"></ion-icon>
+      <ion-icon class="authorListButton"
+                name="people-outline"
+                slot="end"
+                routerLink="authors"
+      ></ion-icon>
     </ion-toolbar>
   </ion-header>
   <div class="search-container">
@@ -19,13 +23,12 @@
 
   </div>
 
-  <div class="bookList-container" *ngIf="booksArr$ | async as booksArr">
-    <ion-icon class="addBookButton" name="add-circle" slot="end" (click)="addNewBook()"></ion-icon>
+  <div class="bookList-container" *ngIf="booksArr">
+    <ion-icon class="addBookButton" name="add-circle" slot="end" routerLink="create-book"></ion-icon>
     <app-book-card class="book"
                    *ngFor="let book of booksArr | search : searchInput : selectedGenre : selectedLanguage : selectedAuthors : minPage : maxPage"
                    [book]="book"
                    (click)="openBookPage(book)">
-<!--                   routerLink="{{book.pages}}"-->
     </app-book-card>
   </div>
 
@@ -56,7 +59,7 @@
 
             <ion-select
                         label-placement="floating"
-                        label="Сортировка по языку"
+                        label="Фильтрация по языку"
                         [multiple]="true" [(ngModel)]="selectedLanguage"
                         okText="Выбрать" cancelText="Сбросить"
                         (ionCancel)="resetValue('lang')"
@@ -68,16 +71,16 @@
 
             <ion-select
               label-placement="floating"
-              label="Сортировка по автору"
+              label="Фильтрация по автору"
               [multiple]="true" [(ngModel)]="selectedAuthors"
               okText="Выбрать" cancelText="Сбросить"
               (ionCancel)="resetValue('author')"
             >
-               <ion-select-option *ngFor="let author of authors" [value]="author">{{author}}</ion-select-option>
+               <ion-select-option *ngFor="let col of authors | async" [value]="col.author">{{col.author}}</ion-select-option>
             </ion-select>
-<!--   Знаю что инлайн стили это плохо, но в этом случае необходимо     -->
+<!--   Инлайн стили это плохо, но в этом случае необходимо     -->
             <div class="pagesFilter" style="padding-top: 18px">
-                <ion-label  >Сортировка по кол-ву страниц</ion-label>
+                <ion-label  >Фильтрация по кол-ву страниц</ion-label>
                 <ion-item >
                   <ion-buttons slot="start">
                     <ion-button (click)="decrementPage('min')"><ion-icon name="remove"></ion-icon></ion-button>

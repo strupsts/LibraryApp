@@ -1,0 +1,88 @@
+
+app-authors-list {
+    ion-content {
+      --background: #67d2d1;
+      font-family: Montserrat,sans-serif;
+    }
+    ion-buttons {
+      padding: 20px 0 20px 10px;
+      background: #67d2d1;
+      color: #033d30;
+
+      ion-title {
+        //padding-top: 18px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    }
+  .mainInfo-container {
+    background: #67d2d1;
+    height: 100px !important;
+    padding: 20px;
+  }
+  .mainInfo-container div {
+    height: 100%;
+  }
+  .additionalInfo-container {
+      min-height: calc(100% - 72px);
+
+  }
+  .createAuthorBtn {
+    font-size: 30px;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    border: 3px solid #3aa3a2;
+    padding: 15px;
+    border-radius: 40px;
+    color: #3aa3a2;
+  }
+  .createAuthorBtn:active {
+    background: #3aa3a2;
+    color: white;
+  }
+  .createAuthorForm {
+      border-radius: 8px;
+      min-height: 80px;
+      box-shadow: 0 0 5px 0.3px rgb(103, 210, 209);
+      margin: 10px auto 50px auto;
+      padding: 0 20px;
+      ion-button {
+        z-index: 5;
+        --background: #67d2d1;
+        position: relative;
+        top: 30px;
+        left: calc(50% - 128.4px/2)
+      }
+      .label {
+        text-align: center;
+        width: 100%;
+        padding: 20px;
+        font-weight: 500;
+        color: #67d2d1;
+        text-shadow: 1px 1px 0.2px #3e8080;
+      }
+  }
+  .saveBtn {
+    font-family: Montserrat,sans-serif;
+    position: fixed;
+    width: 90%;
+    bottom: 0;
+    --background: #3aa3a2;
+    opacity: 1;
+    --background-activated: #348988;
+    font-size: 20px;
+    --background-opacity: 1 !important;
+    z-index: 5;
+    &.button-disabled {
+
+      --background: #7cb4b4;
+    }
+  }
+
+  .authors-wrapper {
+    height: 50px;
+  }
+
+
+}
